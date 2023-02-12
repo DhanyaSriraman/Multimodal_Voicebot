@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html  lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title> FacQA
+</title>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+</head>
+<style>
+body {
+    background-image: url('/static/img4.jpeg');
+    font-family: 'Muli', sans-serif;
+}
+h1 {
+  color: #fff;
+  padding-bottom: 2rem;
+  font-weight: bold;
+}
+a {
+  color: #333;
+}
+a:hover {
+  color: #E8D426;
+  text-decoration: none;
+}
+.form-control:focus {
+    color: #000;
+    background-color: #fff;
+    border: 2px solid #E8D426;
+    outline: 0;
+    box-shadow: none;
+}
+.btn {
+  background: #28a745;
+  border: #E8D426;
+}
+.btn:hover {
+  background: #28a745;
+  border: #E8D426;
+}
+</style>
+
+<body>
+<div class="pt-5">
+  <h1 class="text-center"> FacQA: A Tool To Detect Fake News </h1>
+    <h2 style="color:white" class = "text-center"> Enter the News heading and the article to find out the authenticity of the news</h2>
+<div class="container">
+    <div class="row">
+        <div class="col-md-5 mx-auto">
+            <div class="card card-body">
+                <form action="{{ url_for('predict')}}" method="post">
+                    <div class="form-group required">
+             <input type="text" class="form-control form-control-sm" name="TextH" placeholder="Enter The Article Heading" required="required">
+               </div>
+                    <div class="form-group required">
+                        <input type="text" class="form-control form-control-sm" name="Text" placeholder="Enter The Article" required="required">
+               </div>
+                    <div class="form-group pt-1">
+                        <button class="btn btn-primary btn-block" type="submit"> Predict </button>
+                  </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <br>
+    <br>
+   {{ prediction_text }}
+</div>
+</div>
+</body>
+</html>
+</html>
