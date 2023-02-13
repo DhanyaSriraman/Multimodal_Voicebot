@@ -45,8 +45,8 @@ def predict():
     finalList = []
     verdict = metrics(dict_ans, maj_list, finalList)
     l1 = ["abc","bcd","abc"]
-    # verdict = metrics2(l1, l1)
-    return render_template('index.html', prediction_text='The Above Article :{}'.format(verdict))
+    verdict2 = metrics2(l1, l1)
+    return render_template('index.html', prediction_text='The Above Article :{}'.format(verdict2))
 
 def take_text(head):
     try:
@@ -57,7 +57,7 @@ def take_text(head):
     query = head.split("\n")[0]
     print(query)
     link_list = []
-    for j in search(query, tld="co.in", num=1, stop=1, pause=2):
+    for j in search(query, tld="co.in", num=4, stop=4, pause=2):
         link_list.append(j)
     return link_list
 
@@ -68,8 +68,8 @@ def query_search_text(link_list, only_question, ans_all):
         print(link)
         URL = link
         headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.82 Safari/537.36'}
-        session = requests.Session()
-        r = session.get(URL, headers=headers)
+        #session = requests.Session()
+        r = requests.get(URL, headers=headers)
         soup = BeautifulSoup(r.content, 'html5lib')
         tags = soup.find_all('h1')
         #
@@ -156,7 +156,7 @@ def metrics(list1, list2, newList):
       return "Claim is false" + str(score)
 
 def metrics2(ans_list, maj_list):
-    score = sentence_bleu(ans_list, maj_list, weights=(1, 0, 0, 0))
+    score = sentence_bleu([ans_list], maj_list, weights=(1, 0, 0, 0))
     print(score)
     if score > 0.7:
         return "Article is Trustworthy and It's Score is" + str(score)
