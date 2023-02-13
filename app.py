@@ -8,11 +8,14 @@ from transformers import pipeline as p
 from nltk.translate.bleu_score import sentence_bleu
 from nltk.translate.bleu_score import corpus_bleu
 import torch
+from sentence_transformers import SentenceTransformer
 from googlesearch import search
 
 app = Flask(__name__)
 
 
+ques_ans = {}
+majority_l = {}
 @app.route('/')
 def hello_world():
     return render_template('index.html')
@@ -36,18 +39,26 @@ def predict():
     print(ques_ans_dict)
     print(only_question)
     query_search_text(link_list, only_question, ans_all)
-    # evaluation wala Karn hai ab
     print(ans_all)
     dict_ans = []
     get_answers(ques_ans_dict, dict_ans)
     maj_list = getMajority(ans_all)
     print(maj_list)
     finalList = []
+    importf(dict_ans, maj_list)
     verdict = metrics(dict_ans, maj_list, finalList)
-    l1 = ["abc","bcd","abc"]
-    verdict2 = metrics2(l1, l1)
-    return render_template('index.html', prediction_text='The Above Article :{}'.format(verdict2))
+    verdict2 = metrics2(dict_ans, maj_list)
+    verdict3 = sbertSimilarity(dict_ans, maj_list)
+    score = round(verdict3 * 100, 2)
+    if score >= 50:
+        return render_template('index.html', prediction_text='This Article is Trustworthy with a S-Bert Score of {}'.format(score))
+    else:
+        return render_template('index.html', prediction_text='This Article is Fake with a S-Bert Score of {}'.format(score))
 
+@app.route('/ques_ans')
+def ques_ans():
+    mylist = print_ques_ans()
+    return render_template('table.html', prediction_text = mylist)
 def take_text(head):
     try:
         from googlesearch import search
@@ -167,6 +178,27 @@ def metrics2(ans_list, maj_list):
 def get_answers(dict, ans):
     for ques in dict:
         ans.append(dict[ques])
+
+def sbertSimilarity(ans, maj):
+    sentence_transformer_model = SentenceTransformer('bert-base-nli-mean-tokens')
+    sentence_embeddings = sentence_transformer_model.encode(ans)
+    sentence_embeddings2 = sentence_transformer_model.encode(maj)
+    cos = torch.nn.CosineSimilarity(dim=1, eps=1e-6)
+    output = torch.mean(cos(torch.tensor(sentence_embeddings), torch.tensor(sentence_embeddings2))).item()
+    print(output)
+    return output
+
+def importf(dict, list):
+    ques_ans = dict
+    majority_l = list
+
+def print_ques_ans():
+    print_list = []
+    # for key in ques_ans:
+    #     print_list.append("Ques:- " + key + " ans:- " + ques_ans[key])
+    for i in majority_l:
+        print_list.appned(" obtained ans:- " + i)
+    return print_list
 
 
 if __name__ == '__main__':
