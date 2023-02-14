@@ -26,12 +26,14 @@ The completion of the Model/Tool involved several steps in determining the authe
 <img src = "https://github.com/baquer/FacQA/blob/master/Images/ss.png">
 
 ## Limitations
-* Too many requests while scraping data from the websites
-* Deploying the website with pre-trained models makes the website slow
-* Too many dependencies
-* Limited to text Input only
+* When scraping data from websites, we found that there is a limit to the number of requests that can be made before the website blocks further requests. This can hinder data collection and slow down the research process.
+* Deploying websites with pre-trained models can make the website slow and less responsive. This is because these models can be quite large and computationally expensive, which can cause delays in processing and returning results to users.
+* We also experienced issues with too many dependencies, which can make the project difficult to manage and maintain. Installing and updating multiple packages can be time-consuming and lead to compatibility issues, which can cause errors and bugs in the code.
+* The approach is limited to text input only.
 
 
 ## Future Works
-* Allow URL as an Input to find the authenticity of the news
-* Allow Image as an Input and use CNN for finding out the authencity of the shared Image using the Questions Answers Generation Model 
+Some of the possible future work that could be done to improve upon the current approach are as follows:</br>
+* Predicting news based on the article's URL rather than just the headlines and article text could be a valuable addition to the model. This would involve extracting data from the URL, such as the source or keywords, to gain further insight into the nature of the article and improve prediction accuracy.
+* As visual media becomes increasingly prominent in news reporting, it is important to be able to distinguish between authentic and fake images. By training a CNN on image datasets, it could be possible to accurately identify images that are being used in a misleading or deceptive way.</br>
+These potential areas of future work would involve expanding the scope of the research to include additional data sources and types of analysis. By doing so, we could improve the accuracy and comprehensiveness of our predictions, and contribute to the development of more robust and reliable news analysis models.
