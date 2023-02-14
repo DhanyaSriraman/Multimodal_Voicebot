@@ -13,9 +13,6 @@ from googlesearch import search
 
 app = Flask(__name__)
 
-
-ques_ans = {}
-majority_l = {}
 @app.route('/')
 def hello_world():
     return render_template('index.html')
@@ -45,20 +42,17 @@ def predict():
     maj_list = getMajority(ans_all)
     print(maj_list)
     finalList = []
-    importf(dict_ans, maj_list)
     verdict = metrics(dict_ans, maj_list, finalList)
     verdict2 = metrics2(dict_ans, maj_list)
     verdict3 = sbertSimilarity(dict_ans, maj_list)
     score = round(verdict3 * 100, 2)
     if score >= 50:
-        return render_template('index.html', prediction_text='This Article is Trustworthy with a S-Bert Score of {}'.format(score))
+        return render_template('index.html', prediction_text='This Article is Trustworthy with a S-Bert Score of {}'.format(score), ques_ans = ques_ans_dict, obs_ans = maj_list)
     else:
-        return render_template('index.html', prediction_text='This Article is Fake with a S-Bert Score of {}'.format(score))
+        return render_template('index.html', prediction_text='This Article is Fake with a S-Bert Score of {}'.format(score), ques_ans = ques_ans_dict, obs_ans = maj_list)
 
-@app.route('/ques_ans')
-def ques_ans():
-    mylist = print_ques_ans()
-    return render_template('table.html', prediction_text = mylist)
+
+
 def take_text(head):
     try:
         from googlesearch import search
@@ -174,7 +168,6 @@ def metrics2(ans_list, maj_list):
     else:
         return "Article is Fake and It's Score is" + str(score)
 
-
 def get_answers(dict, ans):
     for ques in dict:
         ans.append(dict[ques])
@@ -187,18 +180,6 @@ def sbertSimilarity(ans, maj):
     output = torch.mean(cos(torch.tensor(sentence_embeddings), torch.tensor(sentence_embeddings2))).item()
     print(output)
     return output
-
-def importf(dict, list):
-    ques_ans = dict
-    majority_l = list
-
-def print_ques_ans():
-    print_list = []
-    # for key in ques_ans:
-    #     print_list.append("Ques:- " + key + " ans:- " + ques_ans[key])
-    for i in majority_l:
-        print_list.appned(" obtained ans:- " + i)
-    return print_list
 
 
 if __name__ == '__main__':

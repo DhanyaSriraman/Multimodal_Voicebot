@@ -103,11 +103,15 @@ Fake news refers to fabricated or misleading information spread through traditio
       <p id="result"></p>
         {{ prediction_text }}
     </div>
-        <form action="{{ url_for('ques_ans')}}">
-                    <div class="form-group pt-1">
-                        <button class="btn btn-primary btn-block" type="submit"> Click For Question & Answers </button>
-                  </div>
-        </form>
+        <div class="container">
+      <p class="ques-label">Questions & Answers:</p>
+        {{ ques_ans }}
+    </div>
+    </div>
+    <div class="container">
+      <p class="Answers">Obtained Answers:</p>
+        {{ obs_ans }}
+    </div>
     </div>
   </body>
 
