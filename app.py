@@ -45,11 +45,11 @@ def predict():
     verdict = metrics(dict_ans, maj_list, finalList)
     verdict2 = metrics2(dict_ans, maj_list)
     verdict3 = sbertSimilarity(dict_ans, maj_list)
-    score = round(verdict3 * 100, 2)
-    if score >= 50:
-        return render_template('index.html', prediction_text='This Article is Trustworthy with a S-Bert Score of {}'.format(score), ques_ans = ques_ans_dict, obs_ans = maj_list)
+    score = round(verdict2 * 100, 2)
+    if score > 30:
+        return render_template('index.html', prediction_text='This Article is Trustworthy with a BLEU Score of {}'.format(score), ques_ans = ques_ans_dict, obs_ans = maj_list)
     else:
-        return render_template('index.html', prediction_text='This Article is Fake with a S-Bert Score of {}'.format(score), ques_ans = ques_ans_dict, obs_ans = maj_list)
+        return render_template('index.html', prediction_text='This Article is Fake with a BLEU Score of {}'.format(score), ques_ans = ques_ans_dict, obs_ans = maj_list)
 
 
 
@@ -162,11 +162,7 @@ def metrics(list1, list2, newList):
 
 def metrics2(ans_list, maj_list):
     score = sentence_bleu([ans_list], maj_list, weights=(1, 0, 0, 0))
-    print(score)
-    if score > 0.7:
-        return "Article is Trustworthy and It's Score is" + str(score)
-    else:
-        return "Article is Fake and It's Score is" + str(score)
+    return score
 
 def get_answers(dict, ans):
     for ques in dict:
