@@ -5,6 +5,10 @@
  <a target="_blank" href="">Video Demo</a>
 </p>
 
+<p align="center">
+ <a target="_blank" href="https://facqa-production.up.railway.app/">FacQA Website</a>
+</p>
+
 ## About The Project
 * FacQA is a Fake News Detection App build using python Flask and Question Answer Generation ML Model
 * It is a Part of Debunkathon organised by shastra IIT Madras
